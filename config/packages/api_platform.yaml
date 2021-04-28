@@ -1,0 +1,11 @@
+# config/packages/api_platform.yaml
+api_platform:
+    title: 'Symfony REST API'
+    description: 'A Symfony API to manage a e-commerce app.'
+    version: '1.0.0'
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]

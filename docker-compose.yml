@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+    db:
+        image: mysql
+        container_name: db_APIGaming
+        restart: always
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        networks:
+            - dev
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: phpmyadmin_APIGaming
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - 8011:80
+        environment:
+            PMA_HOST: db
+        networks:
+            - dev
+
+    www:
+        build: php
+        container_name: www_APIGaming
+        ports:
+            - "8010:80"
+        volumes:
+            - ./php/vhosts:/etc/apache2/sites-enabled
+            - ./:/var/www
+        restart: always
+        networks:
+            - dev
+
+networks:
+    dev:
+
+volumes:
+    db-data:
