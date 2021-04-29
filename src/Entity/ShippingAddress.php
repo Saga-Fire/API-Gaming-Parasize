@@ -189,6 +189,4 @@ class ShippingAddress
 
         return $this;
     }
-
-
 }

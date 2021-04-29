@@ -131,6 +131,4 @@ class Cart
 
         return $this;
     }
-
-
 }

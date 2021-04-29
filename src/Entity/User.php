@@ -187,6 +187,4 @@ class User implements UserInterface
         // see section on salt below
         return null;
     }
-
-
 }
