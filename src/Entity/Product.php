@@ -89,7 +89,7 @@ class Product
     {
         $this->idCategoryProduct = new ArrayCollection();
         $this->idSupportProduct = new ArrayCollection();
-        $this->IdCartProduct = new ArrayCollection();
+        $this->idCartProduct = new ArrayCollection();
     }
 
     public function getId(): ?int
