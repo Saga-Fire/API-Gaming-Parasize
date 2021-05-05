@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ShippingAddressRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
  *     normalizationContext={"groups"={"order:read"}},
  *     denormalizationContext={"groups"={"order:write"}}
  * )
+ * @ApiFilter(SearchFilter::class, properties={"name": "word_start", "lastName": "word_start", "zipCode" : "exact"})
  * @ORM\Entity(repositoryClass=ShippingAddressRepository::class)
  */
 class ShippingAddress
