@@ -1,15 +1,43 @@
 # API GAMING
 
-Une API présentant des jeux vidéos avec API Platform
+Une API présentant la base de donnée du site GamingParadize avec API Platform
 
 Par Hicham, Daho et Mikhail
 
-Utilisation :
+## Environnement de développement
 
-docker compose build (optionnel)
+* PHP 7.4.1
+* Composer
+* Symfony CLI
+* Docker (optionel)
+* Docker-compose(Optionel)
 
-docker compose up -d (le localhost doit être opérationnel)
+Vous pouvez vérifier les pré-requis (sauf Docker et Docker-compose) avec la commande suivante (de la CLI Symfony) :
 
-docker exec -it www_APIGaming bash (pour manipuler les commandes php bin/console)
+```bash
+symfony check:requirements
+```
+### Lancer l'environnement de développement
 
-./bin/console cache:clear pour mettre à jour le cash
+```bash
+docker compose up -d
+symfony serve -d
+```
+
+### Créer la base de donnée
+
+```bash
+symfony console d:d:c
+```
+
+### Mettre à jour le cache
+
+```bash
+symfony console c:c
+```
+
+## Lancer des test
+
+```bash
+php bin/phpunit --testdox
+```
