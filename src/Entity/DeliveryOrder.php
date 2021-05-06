@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"deliveryOrder:read", "user:read", "product:read", "order:read", "support:read", "category:read"}},
+ *     normalizationContext={"groups"={
+ *     "deliveryOrder:read", "user:read", "product:read", "order:read", "support:read", "category:read"}},
  *     denormalizationContext={"groups"={"deliveryOrder:write"}}
  * )
  * @ORM\Entity(repositoryClass=DeliveryOrderRepository::class)
