@@ -81,20 +81,11 @@ class Product
      */
     private $stockProduct;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Cart::class, inversedBy="products")
-     *
-     * @Groups("product:read")
-     */
-    private $idCartProduct;
-
-
 
     public function __construct()
     {
         $this->idCategoryProduct = new ArrayCollection();
         $this->idSupportProduct = new ArrayCollection();
-        $this->idCartProduct = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,30 +197,6 @@ class Product
     public function setStockProduct(int $stockProduct): self
     {
         $this->stockProduct = $stockProduct;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Cart[]
-     */
-    public function getIdCartProduct(): Collection
-    {
-        return $this->idCartProduct;
-    }
-
-    public function addIdCartProduct(Cart $idCartProduct): self
-    {
-        if (!$this->idCartProduct->contains($idCartProduct)) {
-            $this->idCartProduct[] = $idCartProduct;
-        }
-
-        return $this;
-    }
-
-    public function removeIdCartProduct(Cart $idCartProduct): self
-    {
-        $this->idCartProduct->removeElement($idCartProduct);
 
         return $this;
     }

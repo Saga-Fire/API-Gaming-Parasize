@@ -150,23 +150,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCart(): ?Cart
-    {
-        return $this->cart;
-    }
-
-    public function setCart(Cart $cart): self
-    {
-        // set the owning side of the relation if necessary
-        if ($cart->getIdUserCart() !== $this) {
-            $cart->setIdUserCart($this);
-        }
-
-        $this->cart = $cart;
-
-        return $this;
-    }
-
     /**
      * @see UserInterface
      */
