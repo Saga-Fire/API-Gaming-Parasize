@@ -217,7 +217,6 @@ class Product
     {
         if (!$this->deliveryOrders->contains($deliveryOrder)) {
             $this->deliveryOrders[] = $deliveryOrder;
-            $deliveryOrder->addProduct($this);
         }
 
         return $this;

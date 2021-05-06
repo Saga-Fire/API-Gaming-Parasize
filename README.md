@@ -36,8 +36,19 @@ symfony console d:d:c
 symfony console c:c
 ```
 
-## Lancer des test
+### Lancer des test
 
 ```bash
 php bin/phpunit --testdox
+```
+
+### JSON pour PUT, DELETE et PATCH un deliveryOrder
+
+```bash
+{
+  "nameUserOrder": "/api/users/id",
+  "dateOrder": "2021-05-06T20:46:57.363Z",
+  "stateOrder": "string",
+  "products": ["/api/products/id"]
+}
 ```
