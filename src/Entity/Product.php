@@ -90,6 +90,7 @@ class Product
     {
         $this->idCategoryProduct = new ArrayCollection();
         $this->idSupportProduct = new ArrayCollection();
+        $this->deliveryOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
