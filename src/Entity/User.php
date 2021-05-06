@@ -41,7 +41,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups("user:write")
+     * @Groups({"user:read", "user:write"})
      *
      * @SerializedName("password")
      */
