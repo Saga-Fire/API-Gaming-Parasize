@@ -81,6 +81,10 @@ class Product
      */
     private $stockProduct;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=DeliveryOrder::class, mappedBy="products")
+     */
+    private $deliveryOrders;
 
     public function __construct()
     {
@@ -197,6 +201,33 @@ class Product
     public function setStockProduct(int $stockProduct): self
     {
         $this->stockProduct = $stockProduct;
+
+        return $this;
+    }
+
+        /**
+     * @return Collection|DeliveryOrder[]
+     */
+    public function getDeliveryOrders(): Collection
+    {
+        return $this->deliveryOrders;
+    }
+
+    public function addDeliveryOrder(DeliveryOrder $deliveryOrder): self
+    {
+        if (!$this->deliveryOrders->contains($deliveryOrder)) {
+            $this->deliveryOrders[] = $deliveryOrder;
+            $deliveryOrder->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliveryOrder(Product $deliveryOrder): self
+    {
+        if ($this->deliveryOrders->removeElement($deliveryOrder)) {
+            $deliveryOrder->removeProduct($this);
+        }
 
         return $this;
     }

@@ -49,6 +49,18 @@ class DeliveryOrder
      */
     private $stateOrder;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="deliveryOrders", cascade="persist")
+     *
+     * @Groups({"deliveryOrder:read", "deliveryOrder:write"})
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +74,33 @@ class DeliveryOrder
     public function setNameUserOrder(?User $nameUserOrder): self
     {
         $this->nameUserOrder = $nameUserOrder;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addDeliveryOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeDeliveryOrder($this);
+        }
 
         return $this;
     }
