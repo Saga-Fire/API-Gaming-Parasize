@@ -69,9 +69,9 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=Cart::class, mappedBy="idUserCart", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=DeliveryOrder::class, mappedBy="deliveryOrder", orphanRemoval=true)
      */
-    private $cart;
+    private $deliveryOrders;
 
     public function getId(): ?int
     {
