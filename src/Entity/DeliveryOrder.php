@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DeliveryOrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"order:read"}},
- *     denormalizationContext={"groups"={"order:write"}}
+ *     normalizationContext={"groups"={
+ *     "deliveryOrder:read", "user:read", "product:read", "order:read", "support:read", "category:read"}},
+ *     denormalizationContext={"groups"={"deliveryOrder:write"}}
  * )
  * @ORM\Entity(repositoryClass=DeliveryOrderRepository::class)
  */
@@ -21,57 +24,84 @@ class DeliveryOrder
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups("order:read")
+     * @Groups("deliveryOrder:read")
      */
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Cart::class, inversedBy="deliveryOrder", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="deliveryOrders")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @Groups({"order:read", "order:write", "cart:read", "cart:write"})
+     * @Groups({"deliveryOrder:read", "deliveryOrder:write"})
      */
-    private $idCartOrder;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups({"order:read", "order:write"})
-     */
-    private $stateOrder;
+    private $nameUserOrder;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @Groups("order:read")
+     * @Groups({"deliveryOrder:read", "deliveryOrder:write"})
      */
     private $dateOrder;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"deliveryOrder:read", "deliveryOrder:write"})
+     */
+    private $stateOrder;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="deliveryOrders", cascade="persist")
+     *
+     * @Groups({"deliveryOrder:read", "deliveryOrder:write"})
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdCartOrder(): ?Cart
+    public function getNameUserOrder(): ?User
     {
-        return $this->idCartOrder;
+        return $this->nameUserOrder;
     }
 
-    public function setIdCartOrder(Cart $idCartOrder): self
+    public function setNameUserOrder(?User $nameUserOrder): self
     {
-        $this->idCartOrder = $idCartOrder;
+        $this->nameUserOrder = $nameUserOrder;
 
         return $this;
     }
 
-    public function getStateOrder(): ?string
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
     {
-        return $this->stateOrder;
+        return $this->products;
     }
 
-    public function setStateOrder(string $stateOrder): self
+    public function addProduct(Product $product): self
     {
-        $this->stateOrder = $stateOrder;
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addDeliveryOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeDeliveryOrder($this);
+        }
 
         return $this;
     }
@@ -84,6 +114,18 @@ class DeliveryOrder
     public function setDateOrder(\DateTimeInterface $dateOrder): self
     {
         $this->dateOrder = $dateOrder;
+
+        return $this;
+    }
+
+    public function getStateOrder(): ?string
+    {
+        return $this->stateOrder;
+    }
+
+    public function setStateOrder(string $stateOrder): self
+    {
+        $this->stateOrder = $stateOrder;
 
         return $this;
     }

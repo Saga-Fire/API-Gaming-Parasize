@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"user:read"}},
+ *     normalizationContext={"groups"={"user:read", "order:read"}},
  *     denormalizationContext={"groups"={"user:write"}}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -41,7 +41,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups("user:write")
+     * @Groups({"user:read", "user:write"})
      *
      * @SerializedName("password")
      */
@@ -69,9 +69,9 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=Cart::class, mappedBy="idUserCart", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=DeliveryOrder::class, mappedBy="deliveryOrder", orphanRemoval=true)
      */
-    private $cart;
+    private $deliveryOrders;
 
     public function getId(): ?int
     {
@@ -146,23 +146,6 @@ class User implements UserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getCart(): ?Cart
-    {
-        return $this->cart;
-    }
-
-    public function setCart(Cart $cart): self
-    {
-        // set the owning side of the relation if necessary
-        if ($cart->getIdUserCart() !== $this) {
-            $cart->setIdUserCart($this);
-        }
-
-        $this->cart = $cart;
 
         return $this;
     }

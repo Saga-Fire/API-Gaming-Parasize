@@ -82,19 +82,15 @@ class Product
     private $stockProduct;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Cart::class, inversedBy="products")
-     *
-     * @Groups("product:read")
+     * @ORM\ManyToMany(targetEntity=DeliveryOrder::class, mappedBy="products")
      */
-    private $idCartProduct;
-
-
+    private $deliveryOrders;
 
     public function __construct()
     {
         $this->idCategoryProduct = new ArrayCollection();
         $this->idSupportProduct = new ArrayCollection();
-        $this->idCartProduct = new ArrayCollection();
+        $this->deliveryOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,26 +206,28 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|Cart[]
+        /**
+     * @return Collection|DeliveryOrder[]
      */
-    public function getIdCartProduct(): Collection
+    public function getDeliveryOrders(): Collection
     {
-        return $this->idCartProduct;
+        return $this->deliveryOrders;
     }
 
-    public function addIdCartProduct(Cart $idCartProduct): self
+    public function addDeliveryOrder(DeliveryOrder $deliveryOrder): self
     {
-        if (!$this->idCartProduct->contains($idCartProduct)) {
-            $this->idCartProduct[] = $idCartProduct;
+        if (!$this->deliveryOrders->contains($deliveryOrder)) {
+            $this->deliveryOrders[] = $deliveryOrder;
         }
 
         return $this;
     }
 
-    public function removeIdCartProduct(Cart $idCartProduct): self
+    public function removeDeliveryOrder(Product $deliveryOrder): self
     {
-        $this->idCartProduct->removeElement($idCartProduct);
+        if ($this->deliveryOrders->removeElement($deliveryOrder)) {
+            $deliveryOrder->removeProduct($this);
+        }
 
         return $this;
     }

@@ -11,6 +11,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
+ *     collectionOperations={},
  *     normalizationContext={"groups"={"order:read"}},
  *     denormalizationContext={"groups"={"order:write"}}
  * )
@@ -29,51 +30,51 @@ class ShippingAddress
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $zipCode;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"order:read", "order:write", "user:read", "user:write"})
+     * @Groups({"order:read", "order:write"})
      */
     private $country;
 
