@@ -4,15 +4,71 @@ security:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        login:
+            pattern: ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path: /api/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        users:
+            pattern: ^/api/users
+            anonymous: true
+            stateless: true
+            methods: [GET, PUT, PATCH, DELETE]
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        addresses:
+            pattern: ^/api/shipping_addresses
+            anonymous: true
+            stateless: true
+            methods: [GET, POST, PUT, PATCH, DELETE]
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        products:
+            pattern: ^/api/products
+            stateless: true
+            methods: [POST, PUT, PATCH, DELETE]
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        categories:
+            pattern: ^/api/categories
+            stateless: true
+            methods: [POST, PUT, PATCH, DELETE]
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        supports:
+            pattern: ^/api/supports
+            stateless: true
+            methods: [POST, PUT, PATCH, DELETE]
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        Orders:
+            pattern: ^/api/delivery_orders
+            stateless: true
+            methods: [GET, POST, PUT, PATCH, DELETE]
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -25,3 +81,10 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods: [GET, PUT, PATCH, DELETE] }
+        - { path: ^/api/shipping_addresses, roles: IS_AUTHENTICATED_FULLY, methods: [GET, PUT, PATCH, DELETE] }
+        - { path: ^/api/products, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/categories, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/supports, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
+        - { path: ^/api/delivery_orders, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
