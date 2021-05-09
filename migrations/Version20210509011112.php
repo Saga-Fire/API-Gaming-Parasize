@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210506052823 extends AbstractMigration
+final class Version20210509011112 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,12 @@ final class Version20210506052823 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_D34A04AD3B0FC1DD ON product');
-        $this->addSql('ALTER TABLE product DROP name_order');
+        $this->addSql('ALTER TABLE shipping_address CHANGE zip_code zip_code VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE product ADD name_order VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_D34A04AD3B0FC1DD ON product (name_order)');
+        $this->addSql('ALTER TABLE shipping_address CHANGE zip_code zip_code VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
     }
 }

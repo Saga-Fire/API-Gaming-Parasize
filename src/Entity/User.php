@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * @ApiResource(
  *     normalizationContext={"groups"={"user:read", "order:read"}},
- *     denormalizationContext={"groups"={"user:write"}}
+ *     denormalizationContext={"groups"={"user:write", "order:write"}}
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
