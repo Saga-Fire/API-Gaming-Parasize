@@ -11,6 +11,12 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ApiResource(
+ *     itemOperations={
+ *         "get"={"security"="is_granted('edit', object)"},
+ *         "put"={"security"="is_granted('edit', object)"},
+ *         "delete"={"security"="is_granted('delete', object)"},
+ *         "patch"={"security"="is_granted('edit', object)"}
+ *     },
  *     normalizationContext={"groups"={"user:read", "order:read"}},
  *     denormalizationContext={"groups"={"user:write", "order:write"}}
  * )
@@ -173,5 +179,10 @@ class User implements UserInterface
         // you *may* need a real salt depending on your encoder
         // see section on salt below
         return null;
+    }
+
+    public function hasRoles(string $roles): bool
+    {
+        return in_array($roles, $this->roles);
     }
 }

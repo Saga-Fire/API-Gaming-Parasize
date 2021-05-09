@@ -19,13 +19,13 @@ class UserTest extends TestCase
         $user->setEmail('true@test.com')
              ->setPlainPassword('password')
              ->setShippingAddress($address)
-             ->setRoles(['admin'])
+             ->setRoles(['ROLE_USER'])
              ->setCreatedAt($dateTime);
 
         $this->assertTrue($user->getEmail() === 'true@test.com');
         $this->assertTrue($user->getPlainPassword() === 'password');
         $this->assertTrue($user->getShippingAddress() === $address);
-        $this->assertTrue($user->getRoles() === ['admin']);
+        $this->assertTrue($user->getRoles() === ['ROLE_USER']);
         $this->assertTrue($user->getCreatedAt() === $dateTime);
     }
 

@@ -8,10 +8,19 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ShippingAddressRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ApiResource(
  *     collectionOperations={},
+ *     itemOperations={
+ *         "get"={"security"="is_granted('edit', object)"},
+ *         "put"={"security"="is_granted('edit', object)"},
+ *         "delete"={"security"="is_granted('delete', 'ROLE_ADMIN')"},
+ *         "patch"={"security"="is_granted('edit', object)"}
+ *     },
  *     normalizationContext={"groups"={"order:read"}},
  *     denormalizationContext={"groups"={"order:write"}}
  * )
@@ -25,7 +34,7 @@ class ShippingAddress
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups("order:read")
+     * @Groups("order:read", "user:read")
      */
     private $id;
 
