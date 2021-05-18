@@ -26,12 +26,15 @@
     "symfony/property-access": "5.2.*",
     "symfony/property-info": "5.2.*",
     "symfony/proxy-manager-bridge": "5.2.*",
+    "symfony/requirements-checker": "^2.0",
     "symfony/security-bundle": "5.2.*",
     "symfony/serializer": "5.2.*",
     "symfony/twig-bundle": "5.2.*",
     "symfony/validator": "5.2.*",
     "symfony/yaml": "5.2.*",
-    "symfony/maker-bundle": "^1.30"
+    "symfony/debug-bundle": "5.2.*",
+    "symfony/maker-bundle": "^1.30",
+    "symfony/phpunit-bridge": "^5.2"
   },
   "config": {
     "optimize-autoloader": true,
@@ -58,7 +61,8 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "requirements-checker": "script"
     },
     "post-install-cmd": [
       "@auto-scripts"
@@ -76,8 +80,5 @@
       "require": "5.2.*"
     }
   },
-  "require-dev": {
-    "symfony/debug-bundle": "5.2.*",
-    "symfony/phpunit-bridge": "^5.2"
-  }
+  "require-dev": {}
 }
