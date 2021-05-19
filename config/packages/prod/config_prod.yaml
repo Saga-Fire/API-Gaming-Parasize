@@ -1,0 +1,13 @@
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            # Required by Heroku ephemeral filesystem
+            path:  "php://stderr"
+            level: debug
+        console:
+            type:  console

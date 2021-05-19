@@ -10,6 +10,8 @@ doctrine:
         result_cache_driver:
             type: pool
             pool: doctrine.result_cache_pool
+        driver: 'pdo_posql'
+        charset: utf8
 
 framework:
     cache:
