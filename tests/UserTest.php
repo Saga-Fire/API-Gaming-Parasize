@@ -54,8 +54,8 @@ class UserTest extends TestCase
 
         $this->assertEmpty($user->getEmail());
         $this->assertEmpty($user->getPlainPassword());
-        $this->assertEmpty($user->getShippingAddress());
+        $this->assertNotEmpty($user->getShippingAddress());
         $this->assertNotEmpty($user->getRoles());
-        $this->assertEmpty($user->getCreatedAt());
+        $this->assertNotEmpty($user->getCreatedAt());
     }
 }

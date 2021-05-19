@@ -4,16 +4,47 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use App\Entity\ShippingAddress;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use DateTimeInterface;
+
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"user:read", "order:read"}},
- *     denormalizationContext={"groups"={"user:write", "order:write"}}
+ *      collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          },
+ *          "post"={
+ *              "denormalization_context"={"groups"={"login:write", "user:item:post"}},
+ *              "validation_groups"={"create"}
+ *          },
+ *          "login"={
+ *              "method"="POST",
+ *              "normalization_context"={"groups"={"login:read"}},
+ *              "openapi_context" = {
+ *                  "summary" = "Se connecter"
+ *              },
+ *              "deserialize"=false,
+ *              "path"="/login",
+ *              "denormalization_context"={"groups"={"login:write"}}
+ *          }
+ *      },
+ *      normalizationContext={"groups"={"user:read", "order:read"}},
+ *      denormalizationContext={"groups"={"user:write", "order:write"}}
  * )
+ *
+ * @UniqueEntity(
+ *      fields={"email"},
+ *      message="This {{ value }} is already use."
+ * )
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
@@ -23,16 +54,19 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups("user:read")
+     * @Groups("user:read", "login:read")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      *
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read", "user:write", "login:read", "login:write"})
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Email(groups={"create"})
      */
     private $email;
+
 
     /**
      * @var string The hashed password
@@ -41,9 +75,24 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read", "user:write", "login:read", "login:write"})
      *
      * @SerializedName("password")
+     *
+     * @Assert\NotBlank(groups={"create"})
+     * @Assert\Length(
+     *      groups={"create"},
+     *      min = 8,
+     *      max = 32,
+     *      minMessage="Your password must be at lead {{ limit }} character long",
+     *      maxMessage="Your password cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\Regex(
+     *      groups={"create"},
+     *      "/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/",
+     *      message = "Your password needs an uppercase, a lowercase, a digit and a special character"
+     * )
+
      */
     private $plainPassword;
 
@@ -59,12 +108,12 @@ class User implements UserInterface
      *
      * @Groups("user:read")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      *
-     * @Groups({"user:read", "user:write"})
+     * @Groups("user:read")
      */
     private $createdAt;
 
@@ -72,6 +121,13 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=DeliveryOrder::class, mappedBy="deliveryOrder", orphanRemoval=true)
      */
     private $deliveryOrders;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->shippingAddress = new ShippingAddress();
+    }
+
 
     public function getId(): ?int
     {

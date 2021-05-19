@@ -9,8 +9,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AddressVoter extends Voter
 {
-    const EDIT = 'edit';
-    const DELETE = 'delete';
+    private const EDIT = 'edit';
+    private const DELETE = 'delete';
 
     /**
      * Determines if the attribute and subject are supported by this voter.

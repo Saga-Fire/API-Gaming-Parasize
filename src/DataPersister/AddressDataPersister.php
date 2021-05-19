@@ -3,8 +3,11 @@
 namespace App\DataPersister;
 
 use Symfony\Component\Security\Core\Security;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 
-class AddressDataPersister implements ContextAwareDataPersisterInterface
+abstract class AddressDataPersister implements ContextAwareDataPersisterInterface
 {
 
     /**
