@@ -11,12 +11,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ApiResource(
- *     itemOperations={
- *         "get"={"security"="is_granted('edit', object)"},
- *         "put"={"security"="is_granted('edit', object)"},
- *         "delete"={"security"="is_granted('delete', object)"},
- *         "patch"={"security"="is_granted('edit', object)"}
- *     },
  *     normalizationContext={"groups"={"user:read", "order:read"}},
  *     denormalizationContext={"groups"={"user:write", "order:write"}}
  * )
