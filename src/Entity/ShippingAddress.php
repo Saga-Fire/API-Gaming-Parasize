@@ -17,9 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     collectionOperations={},
  *     itemOperations={
  *         "get"={"security"="is_granted('edit', object)"},
- *         "put"={"security"="is_granted('edit', object)"},
- *         "delete"={"security"="is_granted('delete', 'ROLE_ADMIN')"},
- *         "patch"={"security"="is_granted('edit', object)"}
+ *         "put"={"security"="is_granted('edit', object)"}
  *     },
  *     normalizationContext={"groups"={"order:read"}},
  *     denormalizationContext={"groups"={"order:write"}}

@@ -37,6 +37,7 @@ class JWTCreatedListener
         if ($user instanceof User) {
             $data['id'] = $user->getId();
             $data['email'] = $user->getEmail();
+            $data['shippingAddressId'] = $user->getShippingAddress()->getId();
             $data['roles'] = $user->getRoles();
         }
 

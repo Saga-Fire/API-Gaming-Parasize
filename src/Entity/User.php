@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use App\Entity\ShippingAddress;
+use App\Controller\ProfileAction;
+use App\Controller\UserController;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -21,7 +23,7 @@ use DateTimeInterface;
  *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
  *          },
  *          "post"={
- *              "denormalization_context"={"groups"={"login:write", "user:item:post"}},
+ *              "denormalization_context"={"groups"={"user:write", "user:item:post"}},
  *              "validation_groups"={"create"}
  *          },
  *          "login"={
@@ -33,6 +35,22 @@ use DateTimeInterface;
  *              "deserialize"=false,
  *              "path"="/login",
  *              "denormalization_context"={"groups"={"login:write"}}
+ *          }
+ *      },
+ *      itemOperations={
+ *          "get"={
+ *              "security"="is_granted('edit', object)",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          },
+ *          "patch"={
+ *              "security"="is_granted('edit', object)",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource",
+ *              "denormalization_context"={"groups"={"user:write", "order:write", "user:item:post"}},
+ *              "validation_groups"={"create"}
+ *          },
+ *          "delete"={
+ *              "access_control"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
  *          }
  *      },
  *      normalizationContext={"groups"={"user:read", "order:read"}},
@@ -53,14 +71,14 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups("user:read", "login:read")
+     * @Groups({"user:read", "login:read", "user:item:profile:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      *
-     * @Groups({"user:read", "user:write", "login:read", "login:write"})
+     * @Groups({"user:read", "user:write", "login:read", "login:write", "user:item:profile:read"})
      * @Assert\NotBlank(groups={"create"})
      * @Assert\Email(groups={"create"})
      */
@@ -74,7 +92,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups({"user:read", "user:write", "login:read", "login:write"})
+     * @Groups({"user:write", "login:read", "login:write"})
      *
      * @SerializedName("password")
      *
@@ -98,7 +116,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToOne(targetEntity=ShippingAddress::class, inversedBy="user", cascade={"persist", "remove"})
      *
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read", "user:write", "user:item:profile:read"})
      */
     private $shippingAddress;
 
@@ -112,7 +130,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      *
-     * @Groups("user:read")
+     * @Groups({"user:read", "user:item:profile:read"})
      */
     private $createdAt;
 
