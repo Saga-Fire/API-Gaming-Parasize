@@ -135,7 +135,7 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=DeliveryOrder::class, mappedBy="deliveryOrder", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=DeliveryOrder::class, mappedBy="nameUserOrder", orphanRemoval=true)
      */
     private $deliveryOrders;
 
@@ -223,6 +223,37 @@ class User implements UserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getDeliveryOrders(): Collection
+    {
+        return $this->deliveryOrders;
+    }
+
+    public function addDeliveryOrder(User $user): self
+    {
+        if (!$this->deliveryOrders->contains($user)) {
+            $this->deliveryOrders[] = $user;
+            $user->setNameUserOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(User $user): self
+    {
+        if ($this->deliveryOrders->contains($user)) {
+            $this->deliveryOrders->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getNameUserOrder() === $this) {
+                $user->setNameUserOrder(null);
+            }
+        }
 
         return $this;
     }
