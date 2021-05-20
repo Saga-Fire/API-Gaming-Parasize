@@ -53,7 +53,7 @@ class DeliveryOrderTest extends TestCase
 
         $this->assertEmpty($deliveryOrder->getNameUserOrder());
         $this->assertEmpty($deliveryOrder->getProducts());
-        $this->assertEmpty($deliveryOrder->getDateOrder());
+        $this->assertNotEmpty($deliveryOrder->getDateOrder());
         $this->assertEmpty($deliveryOrder->getStateOrder());
     }
 }
