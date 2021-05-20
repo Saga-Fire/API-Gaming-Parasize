@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 
-abstract class AddressDataPersister implements ContextAwareDataPersisterInterface
+abstract class DeliveryOrderDataPersister implements ContextAwareDataPersisterInterface
 {
 
     /**
@@ -29,13 +29,13 @@ abstract class AddressDataPersister implements ContextAwareDataPersisterInterfac
     }
 
     /**
-     * @param ShippingAddress $data
+     * @param DeliveryOrder $data
      */
     public function persist($data, array $context = [])
     {
-        // Set the author if it's a new Address
+        // Set the author if it's a new DeliveryOrder
         if ($this->requestT->getMethod() === 'POST') {
-            $data->setUser($this->securityT->getUser());
+            $data->setNameUserOrder($this->securityT->getUser());
         }
 
         $this->entityManagerT->persist($data);

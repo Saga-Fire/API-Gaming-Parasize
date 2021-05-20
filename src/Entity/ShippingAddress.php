@@ -2,22 +2,28 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ShippingAddressRepository;
-use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ShippingAddressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
  *     collectionOperations={},
  *     itemOperations={
- *         "get"={"security"="is_granted('edit', object)"},
- *         "put"={"security"="is_granted('edit', object)"}
+ *         "get"={
+ *              "security"="is_granted('edit', object)",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          },
+ *         "put"={
+ *              "security"="is_granted('edit', object)",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          }
  *     },
  *     normalizationContext={"groups"={"order:read"}},
  *     denormalizationContext={"groups"={"order:write"}}

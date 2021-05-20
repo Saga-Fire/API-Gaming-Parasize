@@ -3,16 +3,46 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\DeliveryOrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use DateTimeInterface;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={
- *     "deliveryOrder:read", "user:read", "product:read", "order:read", "support:read", "category:read"}},
+ *      collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_USER')",
+ *              "security_message"="Vous devez être connecté pour poster une commande"
+ *          }
+ *      },
+ *      itemOperations={
+ *         "get"={
+ *              "security"="is_granted('edit', object)",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          },
+ *         "put"={
+ *              "access_control"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          },
+ *          "delete"={
+ *              "access_control"="is_granted('ROLE_ADMIN')",
+ *              "security_message"="Vous n'avez pas les droits d'accéder à cette ressource"
+ *          }
+ *      },
+ *      normalizationContext={"groups"={
+ *          "deliveryOrder:read", "user:read",
+ *          "product:read", "order:read",
+ *          "support:read", "category:read"
+ *          }
+ *      },
  *     denormalizationContext={"groups"={"deliveryOrder:write"}}
  * )
  * @ORM\Entity(repositoryClass=DeliveryOrderRepository::class)
@@ -37,7 +67,7 @@ class DeliveryOrder
     private $nameUserOrder;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      *
      * @Groups({"deliveryOrder:read", "deliveryOrder:write"})
      */
@@ -60,6 +90,7 @@ class DeliveryOrder
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->dateOrder = new \DateTime();
     }
 
     public function getId(): ?int
