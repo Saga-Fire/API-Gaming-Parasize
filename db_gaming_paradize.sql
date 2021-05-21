@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 21, 2021 at 12:57 PM
+-- Generation Time: May 21, 2021 at 02:10 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -68,7 +68,8 @@ INSERT INTO `delivery_order` (`id`, `name_user_order_id`, `date_order`, `state_o
 (3, 1, '2021-05-06 20:46:57', 'string'),
 (4, 4, '2021-05-06 20:46:57', 'string'),
 (5, 1, '2021-05-06 20:46:57', 'string'),
-(6, 4, '2021-05-21 08:31:26', 'string');
+(6, 4, '2021-05-21 08:31:26', 'string'),
+(7, 4, '2021-05-21 13:36:54', 'en cours de préparation');
 
 -- --------------------------------------------------------
 
@@ -93,7 +94,10 @@ INSERT INTO `delivery_order_product` (`delivery_order_id`, `product_id`) VALUES
 (3, 1),
 (4, 1),
 (5, 1),
-(6, 2);
+(6, 2),
+(7, 1),
+(7, 2),
+(7, 4);
 
 -- --------------------------------------------------------
 
@@ -106,14 +110,6 @@ CREATE TABLE `doctrine_migration_versions` (
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `doctrine_migration_versions`
---
-
-INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20210519114628', '2021-05-19 11:49:12', 596),
-('DoctrineMigrations\\Version20210521125617', '2021-05-21 12:56:40', 36);
 
 -- --------------------------------------------------------
 
@@ -228,12 +224,14 @@ CREATE TABLE `shipping_address` (
 
 INSERT INTO `shipping_address` (`id`, `name`, `last_name`, `phone`, `address`, `zip_code`, `city`, `country`) VALUES
 (1, 'aaa', 'bbb', 'aaa', 'staa', 'saang', 'stzg', 'stzg'),
-(5, 'aaaaa', 'string', 'string', 'string', 'string', 'string', 'string'),
+(5, 'Mikhaïl NAIDJI', '', '+33626440432', '24 Allée de Bayeux', '76000', 'Rouen', 'France'),
 (7, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (11, 'string', 'string', 'string', 'string', 'string', 'string', 'string'),
 (14, 'aaaaa', 'string', 'string', 'string', 'string', 'string', 'string'),
-(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -286,7 +284,9 @@ INSERT INTO `user` (`id`, `shipping_address_id`, `email`, `password`, `roles`, `
 (8, 7, 'user3@gmail.fr', '$2y$13$9sImSU3TDoqyNgkPTQ0gxuRNIeFLzb3U0iS3jbxpQdEluoSW3KJ9W', '[\"ROLE_USER\"]', '2021-05-19 18:42:10'),
 (9, 8, 'user4@gmail.fr', '$2y$13$eC3HEM.2s1A6QkFw..mh0eVPLRl8yhr/a0cKFKvsols0DtOVi8Qg6', '[\"ROLE_USER\"]', '2021-05-19 18:45:37'),
 (12, 11, 'user1@gmail.fr', '$2y$13$3yCrrHHw8AKlj7/IYJn2neYmoxCAzV0MeOdABTQcZXaX2SfRvLhuu', '[\"ROLE_USER\"]', '2021-05-20 09:47:57'),
-(14, 16, 'user7@gmail.fr', '$2y$13$4CcfWPHqmdnoQ9YYVl/Oe.flHbDnm5.eqha0P3FbipPdzeDZ4f/9i', '[\"ROLE_USER\"]', '2021-05-21 10:37:53');
+(14, 16, 'user7@gmail.fr', '$2y$13$4CcfWPHqmdnoQ9YYVl/Oe.flHbDnm5.eqha0P3FbipPdzeDZ4f/9i', '[\"ROLE_USER\"]', '2021-05-21 10:37:53'),
+(17, 19, 'user9@gmail.fr', '$2y$13$Wh7hTNZ82DGkfKiAci3KQesOr6Bno7ANBKBz2Ecqo7SA0cobRSqWq', '[\"ROLE_USER\"]', '2021-05-21 13:26:58'),
+(18, 20, 'user10@gmail.fr', '$2y$13$XH.OmKTsmi0q5aJoEJM6CuxJ4zQ6rRNwPj.0lvEAxX/UNGZo8kjY6', '[\"ROLE_USER\"]', '2021-05-21 13:53:18');
 
 --
 -- Indexes for dumped tables
@@ -377,7 +377,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `delivery_order`
 --
 ALTER TABLE `delivery_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -389,7 +389,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `support`
@@ -401,7 +401,7 @@ ALTER TABLE `support`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
