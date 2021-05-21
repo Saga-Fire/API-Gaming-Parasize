@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 19, 2021 at 03:05 PM
+-- Generation Time: May 21, 2021 at 12:57 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -54,9 +54,21 @@ INSERT INTO `category` (`id`, `name_category`) VALUES
 CREATE TABLE `delivery_order` (
   `id` int(11) NOT NULL,
   `name_user_order_id` int(11) NOT NULL,
-  `date_order` datetime NOT NULL,
+  `date_order` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `state_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `delivery_order`
+--
+
+INSERT INTO `delivery_order` (`id`, `name_user_order_id`, `date_order`, `state_order`) VALUES
+(1, 1, '2021-05-06 20:46:57', 'string'),
+(2, 1, '2021-05-06 20:46:57', 'string'),
+(3, 1, '2021-05-06 20:46:57', 'string'),
+(4, 4, '2021-05-06 20:46:57', 'string'),
+(5, 1, '2021-05-06 20:46:57', 'string'),
+(6, 4, '2021-05-21 08:31:26', 'string');
 
 -- --------------------------------------------------------
 
@@ -68,6 +80,20 @@ CREATE TABLE `delivery_order_product` (
   `delivery_order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `delivery_order_product`
+--
+
+INSERT INTO `delivery_order_product` (`delivery_order_id`, `product_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 2);
 
 -- --------------------------------------------------------
 
@@ -86,7 +112,8 @@ CREATE TABLE `doctrine_migration_versions` (
 --
 
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20210519114628', '2021-05-19 11:49:12', 596);
+('DoctrineMigrations\\Version20210519114628', '2021-05-19 11:49:12', 596),
+('DoctrineMigrations\\Version20210521125617', '2021-05-21 12:56:40', 36);
 
 -- --------------------------------------------------------
 
@@ -200,10 +227,13 @@ CREATE TABLE `shipping_address` (
 --
 
 INSERT INTO `shipping_address` (`id`, `name`, `last_name`, `phone`, `address`, `zip_code`, `city`, `country`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'string', 'string', 'string', 'string', 'string', 'string', 'string');
+(1, 'aaa', 'bbb', 'aaa', 'staa', 'saang', 'stzg', 'stzg'),
+(5, 'aaaaa', 'string', 'string', 'string', 'string', 'string', 'string'),
+(7, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 'string', 'string', 'string', 'string', 'string', 'string', 'string'),
+(14, 'aaaaa', 'string', 'string', 'string', 'string', 'string', 'string'),
+(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -250,9 +280,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `shipping_address_id`, `email`, `password`, `roles`, `created_at`) VALUES
-(1, 1, 'admin@gmail.fr', '$2y$13$zWWZZLWzlWsqsX1GnYgvye9eLvhtAKG./fvyfFVkjn1XYf5Q6nr0q', '[\"ROLE_ADMIN\"]', '2021-05-19 11:50:35'),
-(4, 5, 'user2@gmail.fr', '$2y$13$oWYOR67pYsNoJyxzYhMmPuhZk3I8OS/hzp8e9Ct9gluW6zgpv/g8O', '[\"ROLE_USER\"]', '2021-05-19 12:06:43'),
-(6, 4, 'admi@gmail.fr', '$2y$13$rUrknyzB0JEIE.SpBywlU.VedE/R3/VL2rf8KQwXK45HJYoES1mq2', '[\"ROLE_USER\"]', '2021-05-19 12:08:05');
+(1, 1, 'admin2@gmail.fr', '$2y$13$zWWZZLWzlWsqsX1GnYgvye9eLvhtAKG./fvyfFVkjn1XYf5Q6nr0q', '[\"ROLE_ADMIN\"]', '2021-05-19 11:50:35'),
+(4, 5, 'user@gmail.fr', '$2y$13$Kw2kBak197DK/1uU/32VDOTCjM.uFkLrQ7wF.Kka3WzcLVnAmKACy', '[\"ROLE_USER\"]', '2021-05-19 12:06:43'),
+(6, 14, 'user5@gmail.fr', '$2y$13$rUrknyzB0JEIE.SpBywlU.VedE/R3/VL2rf8KQwXK45HJYoES1mq2', '[\"ROLE_USER\"]', '2021-05-19 12:08:05'),
+(8, 7, 'user3@gmail.fr', '$2y$13$9sImSU3TDoqyNgkPTQ0gxuRNIeFLzb3U0iS3jbxpQdEluoSW3KJ9W', '[\"ROLE_USER\"]', '2021-05-19 18:42:10'),
+(9, 8, 'user4@gmail.fr', '$2y$13$eC3HEM.2s1A6QkFw..mh0eVPLRl8yhr/a0cKFKvsols0DtOVi8Qg6', '[\"ROLE_USER\"]', '2021-05-19 18:45:37'),
+(12, 11, 'user1@gmail.fr', '$2y$13$3yCrrHHw8AKlj7/IYJn2neYmoxCAzV0MeOdABTQcZXaX2SfRvLhuu', '[\"ROLE_USER\"]', '2021-05-20 09:47:57'),
+(14, 16, 'user7@gmail.fr', '$2y$13$4CcfWPHqmdnoQ9YYVl/Oe.flHbDnm5.eqha0P3FbipPdzeDZ4f/9i', '[\"ROLE_USER\"]', '2021-05-21 10:37:53');
 
 --
 -- Indexes for dumped tables
@@ -343,7 +377,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `delivery_order`
 --
 ALTER TABLE `delivery_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -355,7 +389,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `shipping_address`
 --
 ALTER TABLE `shipping_address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `support`
@@ -367,7 +401,7 @@ ALTER TABLE `support`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
