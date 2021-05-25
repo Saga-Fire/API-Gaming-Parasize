@@ -39,6 +39,7 @@ class JWTCreatedListener
             $data['email'] = $user->getEmail();
             $data['shippingAddressId'] = $user->getShippingAddress()->getId();
             $data['roles'] = $user->getRoles();
+            $data['auth'] = true;
         }
 
         $event->setData($data);
